@@ -25,3 +25,6 @@ mutants/
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
+
+# Local harness / session state
+.claude/
