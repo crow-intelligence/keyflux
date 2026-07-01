@@ -57,18 +57,22 @@ def average_ranks(counts: Mapping[str, float]) -> dict[str, float]:
 
 @dataclass(frozen=True, slots=True)
 class RankedList:
-    """A type-to-rank mapping derived from frequency counts.
+    """A type-to-rank mapping derived from counts or scores.
 
     Attributes:
         ranks: Type-to-rank mapping within this list's own domain (average ties).
-        counts: The original counts the ranks were derived from.
-        total: Sum of the counts.
+        counts: The values the ranks were derived from — frequency counts
+            (:meth:`from_counts`) or arbitrary scores (:meth:`from_scores`).
+            Used by :meth:`aligned` to place a type absent from the other list at
+            a tied-last rank, so scores should be non-negative "prominence"
+            values for that comparison semantics to hold.
+        total: Sum of the values.
         label: An optional label (e.g. a time period) for plots and results.
     """
 
     ranks: Mapping[str, float]
-    counts: Mapping[str, int]
-    total: int
+    counts: Mapping[str, float]
+    total: float
     label: str = field(default="")
 
     @classmethod
@@ -96,6 +100,42 @@ class RankedList:
             msg = "Cannot build a RankedList from empty counts."
             raise ValueError(msg)
         plain = dict(counts)
+        return cls(
+            ranks=average_ranks(plain),
+            counts=plain,
+            total=sum(plain.values()),
+            label=label,
+        )
+
+    @classmethod
+    def from_scores(cls, scores: Mapping[str, float], *, label: str = "") -> RankedList:
+        """Build a ranked list by ranking types on descending score.
+
+        Ranks by any numeric metric — keyness score, log ratio, salience — so a
+        keyword ranking (or any other) can be compared like a frequency ranking.
+
+        Args:
+            scores: Mapping of type to score. The highest score gets rank 1.
+                Scores are treated as prominence: when two lists are aligned, a
+                type absent from one gets score 0 there (tied-last), so
+                non-negative scores keep that behaviour intuitive.
+            label: Optional label for the list.
+
+        Returns:
+            A ``RankedList`` whose ranks average tied scores.
+
+        Raises:
+            ValueError: If ``scores`` is empty.
+
+        Examples:
+            >>> r = RankedList.from_scores({"climate": 6.4, "carbon": 5.8, "the": 0.1})
+            >>> r.ranks["climate"], r.ranks["the"]
+            (1.0, 3.0)
+        """
+        if not scores:
+            msg = "Cannot build a RankedList from empty scores."
+            raise ValueError(msg)
+        plain = dict(scores)
         return cls(
             ranks=average_ranks(plain),
             counts=plain,

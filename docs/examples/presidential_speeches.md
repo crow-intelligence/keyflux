@@ -59,6 +59,26 @@ The 19thC↔21stC pair at three settings (divergence rises from 0.39 to 0.54):
 
 ![alpha 1](https://raw.githubusercontent.com/crow-intelligence/keyflux/main/examples/gallery/alpha_sweep_1.png)
 
+## The diamond allotaxonograph
+
+The same comparison in the canonical Dodds (2020) **diamond** (`allotaxonometer`):
+a rotated-square rank-rank histogram with iso-divergence contours and a wordshift
+list. Shared function words sit on the vertical centre near the top; era-specific
+and exclusive words fan out to the lower edges.
+
+![diamond 1825–1849 vs 2000–2024](https://raw.githubusercontent.com/crow-intelligence/keyflux/main/examples/gallery/diamond_2000-2024_vs_1825-1849.png)
+
+## Frequent words vs. keywords — two rankings of one corpus
+
+`allotaxonometer` compares *any* two rankings, not just two corpora. Here the
+**2000–2024** corpus is ranked two ways — by raw **frequency** and by **keyness**
+(log-likelihood vs the 1825–1849 reference, via `RankedList.from_scores`) — and
+diamonded against itself. Function words (*the, be, and, of*) top the frequency
+ranking but fall out of the keyness ranking; deictic and content words (*we, you,
+america, thank*) rise. Same vocabulary, reordered.
+
+![frequency vs keyness](https://raw.githubusercontent.com/crow-intelligence/keyflux/main/examples/gallery/diamond_frequency_vs_keyness.png)
+
 ## The script
 
 ```python title="examples/presidential_speeches.py"

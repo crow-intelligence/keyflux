@@ -1,6 +1,6 @@
 [project]
 name = "keyflux"
-version = "0.1.2"
+version = "0.2.0"
 description = "Corpus keyness, rank-turbulence divergence, and allotaxonographs"
 readme = "README.md"
 authors = [

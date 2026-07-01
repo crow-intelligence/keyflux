@@ -66,5 +66,6 @@ nav:
       - api/rankedlist.md
       - api/rtd.md
       - api/allotaxonograph.md
+      - api/allotaxonometer.md
       - api/corpus.md
       - api/datasets.md
