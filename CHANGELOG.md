@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-07-01
+
+### Fixed
+
+- `keyflux.__version__` is now read from the installed package metadata
+  (`importlib.metadata`) instead of a hardcoded string, so it always matches the
+  release (0.1.1's `__version__` incorrectly reported `0.1.0`). This also fixes
+  the version recorded in `ReproRecord`.
+
 ## [0.1.1] - 2026-07-01
 
 ### Added
