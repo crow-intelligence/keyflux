@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" alt="keyflux logo" width="440">
+</p>
+
 # keyflux
 
 Corpus keyness, rank-turbulence divergence, and allotaxonographs — in pure Python.
@@ -18,6 +22,10 @@ render with matplotlib.
 ## Quick links
 
 - [Quickstart](quickstart.md) — clean install to allotaxonograph
+- [Keywords and lockwords](tutorials/keyness_walkthrough.md) — the keyness front end
+- [RTD and the allotaxonograph](tutorials/rtd_allotaxonograph.md) — the rank-aware comparison
+- [Two views of one comparison](tutorials/two_views.md) — lockwords = diagonal, keywords = off-diagonal
+- [Troubleshooting](troubleshooting.md) — common errors and fixes
 - [API Reference](api/measures.md) — every public function and its contract
 
 ---

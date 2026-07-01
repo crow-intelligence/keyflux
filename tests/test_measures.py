@@ -204,3 +204,28 @@ class TestMeasureProperties:
             "p001": 10.83,
             "p0001": 15.13,
         }
+
+
+class TestDefaultArguments:
+    """Pin the documented default parameters (floor=0.5, k=100)."""
+
+    def test_log_ratio_default_floor_is_half(self) -> None:
+        # The default floor must be 0.5: an exclusive's value is pinned by it.
+        assert log_ratio(50, 0, 1000, 1000) == log_ratio(50, 0, 1000, 1000, floor=0.5)
+        assert log_ratio(50, 0, 1000, 1000) != log_ratio(50, 0, 1000, 1000, floor=1.0)
+
+    def test_percent_diff_default_floor_is_half(self) -> None:
+        assert percent_diff(0, 50, 1000, 1000) == percent_diff(
+            0, 50, 1000, 1000, floor=0.5
+        )
+        assert percent_diff(0, 50, 1000, 1000) != percent_diff(
+            0, 50, 1000, 1000, floor=1.0
+        )
+
+    def test_simple_maths_default_k_is_hundred(self) -> None:
+        assert simple_maths(620, 267, 1_017_879, 1_007_532) == simple_maths(
+            620, 267, 1_017_879, 1_007_532, k=100.0
+        )
+        assert simple_maths(620, 267, 1_017_879, 1_007_532) != simple_maths(
+            620, 267, 1_017_879, 1_007_532, k=10.0
+        )

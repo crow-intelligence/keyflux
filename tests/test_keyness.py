@@ -65,6 +65,38 @@ class TestLockwords:
         assert kw.isdisjoint(lw)
 
 
+class TestLockwordThresholds:
+    """Pin the lockword default thresholds against boundary mutations."""
+
+    def _corpus(self) -> tuple[Counter[str], Counter[str]]:
+        # "the": near parity, frequent -> lockword.
+        # "mid": |log ratio| == 1.0 (twice as frequent), not significant.
+        # "rare": parity but only 3 in each (below min_freq_both=5).
+        focus = Counter({"the": 5000, "mid": 10, "rare": 3})
+        reference = Counter({"the": 5000, "mid": 5, "rare": 3})
+        return focus, reference
+
+    def test_log_ratio_ceiling_excludes_mid(self) -> None:
+        # |log ratio| of "mid" is 1.0, above the default 0.5 ceiling.
+        focus, reference = self._corpus()
+        k = Keyness(focus, reference, min_focus_freq=1, min_reference_freq=1)
+        lock = {r.type for r in k.lockwords()}
+        assert "the" in lock
+        assert "mid" not in lock
+
+    def test_raising_ceiling_admits_mid(self) -> None:
+        focus, reference = self._corpus()
+        k = Keyness(focus, reference, min_focus_freq=1, min_reference_freq=1)
+        assert "mid" in {r.type for r in k.lockwords(max_abs_log_ratio=1.5)}
+
+    def test_min_freq_both_excludes_rare(self) -> None:
+        focus, reference = self._corpus()
+        k = Keyness(focus, reference, min_focus_freq=1, min_reference_freq=1)
+        # "rare" is at parity but only 3 in each, below the default min_freq_both=5.
+        assert "rare" not in {r.type for r in k.lockwords()}
+        assert "rare" in {r.type for r in k.lockwords(min_freq_both=2)}
+
+
 class TestSwapSymmetry:
     """Swapping focus and reference flips keyword polarity, preserves lockwords."""
 

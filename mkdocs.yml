@@ -16,6 +16,8 @@ extra:
 
 theme:
   name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
   features:
     - navigation.sections
     - content.code.copy
@@ -47,3 +49,21 @@ markdown_extensions:
 nav:
   - Getting Started:
       - index.md
+      - quickstart.md
+  - Tutorials:
+      - tutorials/keyness_walkthrough.md
+      - tutorials/rtd_allotaxonograph.md
+      - tutorials/two_views.md
+  - Examples:
+      - examples/keyness_quickstart.md
+      - examples/allotaxonograph_demo.md
+  - Troubleshooting: troubleshooting.md
+  - API Reference:
+      - api/measures.md
+      - api/keyness.md
+      - api/classify.md
+      - api/rankedlist.md
+      - api/rtd.md
+      - api/allotaxonograph.md
+      - api/corpus.md
+      - api/datasets.md

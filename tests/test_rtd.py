@@ -66,6 +66,24 @@ class TestCoreProperties:
         assert 0.0 <= div <= 1.0
 
 
+class TestDefaults:
+    """Pin the documented default parameters."""
+
+    def test_default_alpha_is_one_third(self) -> None:
+        r1, r2 = load_jkbren_example()
+        assert rtd(r1, r2).divergence == rtd(r1, r2, alpha=1.0 / 3.0).divergence
+        assert rtd(r1, r2).divergence != rtd(r1, r2, alpha=1.0).divergence
+
+    def test_normalize_default_is_true(self) -> None:
+        r1, r2 = load_jkbren_example()
+        assert (
+            rtd(r1, r2, alpha=1.0).divergence
+            == rtd(r1, r2, alpha=1.0, normalize=True).divergence
+        )
+        # With normalize off, divergence falls back to the raw (un-normalised) sum.
+        assert rtd(r1, r2, alpha=1.0, normalize=False).divergence > 1.0
+
+
 class TestValidation:
     """Input validation."""
 

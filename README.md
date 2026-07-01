@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/crow-intelligence/keyflux/main/imgs/logo.svg" alt="keyflux logo" width="440">
+</p>
+
 # keyflux
 
 Corpus keyness, rank-turbulence divergence, and allotaxonographs — in pure Python.
@@ -60,6 +64,27 @@ fig.savefig("allotaxonograph.png")
 Full documentation — quickstart, the keyness and allotaxonograph tutorials,
 troubleshooting, and the complete API reference — is at
 [keyflux.readthedocs.io](https://keyflux.readthedocs.io). The sources live in `docs/`.
+
+## Roadmap
+
+Planned for the next iteration. The robustness items are analysed in detail in
+[`PRE-MORTEM.md`](PRE-MORTEM.md), and the open modelling choices are listed in
+[`CHANGES_SUMMARY.md`](CHANGES_SUMMARY.md).
+
+**Robustness / API decisions**
+
+- [ ] Revisit the zero-cell floor default (0.5): it sets the effect size of every exclusive keyword and reorders the top of the list.
+- [ ] Decide whether `min_focus_freq` / `min_reference_freq` should default asymmetrically (keep focus-exclusive keywords while demanding more reference evidence).
+- [ ] Add Cohen's *d* (dispersion-aware effect size) once the corpus input can carry sub-corpus structure.
+
+**Proposed features**
+
+- [ ] `RankedList.from_keyness(..., by="score")` — rank by keyness score, not just frequency, so "compare the distinctive-word lists over time" is a one-liner.
+- [ ] Optional self-contained interactive HTML+JS allotaxonograph export (an alpha slider), gated behind an extra so the core stays pure Python.
+
+**Maintenance**
+
+- [ ] Publish to PyPI and wire up ReadTheDocs.
 
 ## Made by
 
