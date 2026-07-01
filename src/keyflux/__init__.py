@@ -1,6 +1,6 @@
 """Keyflux — keyness, rank-turbulence divergence, and allotaxonographs."""
 
-__version__ = "0.1.0"
+from importlib.metadata import PackageNotFoundError, version
 
 from keyflux.divergence import Contribution, RTDResult, rtd
 from keyflux.io.corpus import counts_from_text, counts_from_tokens, load_counts
@@ -12,6 +12,11 @@ from keyflux.keyness import (
 )
 from keyflux.ranking import RankedList
 from keyflux.viz import allotaxonograph
+
+try:
+    __version__ = version("keyflux")
+except PackageNotFoundError:  # pragma: no cover - only when running uninstalled
+    __version__ = "0.0.0+unknown"
 
 __all__ = [
     "Keyness",
