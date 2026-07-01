@@ -11,6 +11,7 @@ from keyflux.keyness import (
     ReproRecord,
 )
 from keyflux.ranking import RankedList
+from keyflux.viz import allotaxonograph
 
 __all__ = [
     "Keyness",
@@ -21,6 +22,7 @@ __all__ = [
     "rtd",
     "RTDResult",
     "Contribution",
+    "allotaxonograph",
     "counts_from_tokens",
     "counts_from_text",
     "load_counts",
