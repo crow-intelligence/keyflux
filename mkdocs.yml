@@ -57,6 +57,7 @@ nav:
   - Examples:
       - examples/keyness_quickstart.md
       - examples/allotaxonograph_demo.md
+      - examples/presidential_speeches.md
   - Troubleshooting: troubleshooting.md
   - API Reference:
       - api/measures.md

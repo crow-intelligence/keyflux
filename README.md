@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/crow-intelligence/keyflux/main/imgs/logo.svg" alt="keyflux logo" width="440">
+  <img src="https://raw.githubusercontent.com/crow-intelligence/keyflux/main/imgs/logo.png" alt="keyflux logo" width="440">
 </p>
 
 # keyflux
