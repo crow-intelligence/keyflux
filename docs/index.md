@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" alt="keyflux logo" width="440">
+</p>
+
 # keyflux
 
 Corpus keyness, rank-turbulence divergence, and allotaxonographs — in pure Python.
