@@ -15,7 +15,14 @@
 from collections import Counter
 from pathlib import Path
 
-from keyflux import Keyness, RankedList, allotaxonograph, load_counts, rtd
+from keyflux import (
+    Keyness,
+    RankedList,
+    allotaxonograph,
+    allotaxonometer,
+    load_counts,
+    rtd,
+)
 
 try:
     HERE = Path(__file__).resolve().parent
@@ -141,3 +148,54 @@ for a, tag in [(0.0, "0"), (1 / 3, "0.33"), (1.0, "1")]:
     fig = compare("2000-2024", "1825-1849", alpha=a,
                   save_as=f"alpha_sweep_{tag}.png")
     show(fig)
+
+# %% [markdown]
+# ## The diamond allotaxonograph (`allotaxonometer`)
+#
+# The same comparisons in the canonical Dodds (2020) diamond: a rotated-square
+# rank-rank histogram with iso-divergence contours and a wordshift list. Shared
+# function words sit on the vertical centre near the top; era-specific and
+# exclusive words fan out to the edges.
+
+
+# %%
+def diamond(focus_period, reference_period, *, alpha=1 / 3, save_as=None):
+    """Render the diamond allotaxonograph for two eras; returns the Figure."""
+    r_focus = RankedList.from_counts(counts[focus_period], label=focus_period)
+    r_reference = RankedList.from_counts(
+        counts[reference_period], label=reference_period
+    )
+    fig = allotaxonometer(r_focus, r_reference, alpha=alpha)
+    if save_as:
+        fig.savefig(GALLERY / save_as, dpi=130, bbox_inches="tight")
+        print(f"saved gallery/{save_as}")
+    return fig
+
+
+# %%
+show(diamond("2000-2024", "1825-1849", save_as="diamond_2000-2024_vs_1825-1849.png"))
+
+# %%
+show(diamond("2000-2024", "1950-1974", save_as="diamond_2000-2024_vs_1950-1974.png"))
+
+# %% [markdown]
+# ## Frequent words vs. keywords — two rankings of one corpus
+#
+# `allotaxonometer` compares *any* two rankings. Here we rank the 2000–2024
+# corpus two ways — by raw frequency and by keyness (log-likelihood vs the
+# 1825–1849 reference, via `RankedList.from_scores`) — and diamond them against
+# each other. Function words top the frequency ranking but vanish from the
+# keyness ranking; content words leap up. It's the same vocabulary, reordered.
+
+# %%
+freq_rank = RankedList.from_counts(counts["2000-2024"], label="by frequency")
+_k = Keyness(counts["2000-2024"], counts["1825-1849"],
+             min_focus_freq=10, min_reference_freq=10)
+key_scores = {r.type: r.statistic for r in _k.table() if r.direction == "positive"}
+key_rank = RankedList.from_scores(key_scores, label="by keyness")
+fig_fk = allotaxonometer(freq_rank, key_rank, alpha=1 / 3)
+fig_fk.savefig(
+    GALLERY / "diamond_frequency_vs_keyness.png", dpi=130, bbox_inches="tight"
+)
+print("saved gallery/diamond_frequency_vs_keyness.png")
+show(fig_fk)

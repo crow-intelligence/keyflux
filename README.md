@@ -54,9 +54,12 @@ fig.savefig("allotaxonograph.png")
 - **Keyness measures**: log-likelihood (Dunning), log ratio, Simple Maths, %DIFF, and
   chi-square (for contrast) — significance flagged against the chi-square thresholds
 - **Keywords and lockwords**: positive / negative keywords plus the stable lockword zone
-- **Rank-turbulence divergence**: tunable, rank-sensitive corpus comparison with
-  per-type contributions and an explicit alpha-to-zero log limit
-- **Allotaxonograph**: publication-quality two-panel matplotlib figure, no JS runtime
+- **Rank-turbulence divergence**: tunable, rank-sensitive comparison of *any* two
+  rankings (frequency, keyness score, …) with per-type contributions and an
+  explicit alpha-to-zero log limit
+- **Allotaxonographs**: a two-panel view (`allotaxonograph`) and the full Dodds
+  (2020) **diamond** (`allotaxonometer`) — rank-rank histogram, iso-divergence
+  contours, wordshift — publication-quality matplotlib, no JS runtime
 - **Reproducibility records**: every keyness result emits its reference, cutoffs, and measure
 
 ## Documentation
@@ -64,6 +67,28 @@ fig.savefig("allotaxonograph.png")
 Full documentation — quickstart, the keyness and allotaxonograph tutorials,
 troubleshooting, and the complete API reference — is at
 [keyflux.readthedocs.io](https://keyflux.readthedocs.io). The sources live in `docs/`.
+
+## Research direction: comparing many rankings
+
+Rank-turbulence divergence and the allotaxonograph are **pairwise** — they compare
+two rankings at a time. This is true of the whole allotaxonometry line, including
+the 2025 tooling suite ([arXiv:2506.21808](https://arxiv.org/abs/2506.21808)). But
+the questions we care about are often *many*-way: how does presidential vocabulary
+drift across **all eleven** eras at once? Which of a dozen speaker groups is the
+outlier? Comparing many rankings simultaneously is an open problem we intend to
+research and, eventually, support.
+
+The nearest existing framework is **rank aggregation** — finding a consensus
+ranking that best agrees with a set of input rankings. The classic formulation is
+the **Kemeny median** (minimise total pairwise disagreement), which is NP-hard,
+with squared-distance and set-wise / k-wise generalisations
+([Kemeny aggregation](https://arxiv.org/abs/1402.5259);
+[squared Kemeny](https://arxiv.org/html/2404.08474v1);
+[set-wise Kemeny](https://www.sciencedirect.com/science/article/abs/pii/S030439752100414X)).
+Candidate directions for keyflux: a **pairwise RTD matrix** (all-pairs divergence
++ clustering/MDS of systems), **consensus-vs-each** allotaxonographs (compare every
+ranking against an aggregate), and **time-series flipbooks** of successive
+allotaxonographs. If you work on this, we'd love to hear from you.
 
 ## Roadmap
 
@@ -79,12 +104,13 @@ Planned for the next iteration. The robustness items are analysed in detail in
 
 **Proposed features**
 
-- [ ] `RankedList.from_keyness(..., by="score")` — rank by keyness score, not just frequency, so "compare the distinctive-word lists over time" is a one-liner.
+- [x] Rank by any score, not just frequency (`RankedList.from_scores`) — compare keyword rankings, keyness scores, or any metric.
+- [ ] Comparing many rankings at once — see [Research direction](#research-direction-comparing-many-rankings) above.
 - [ ] Optional self-contained interactive HTML+JS allotaxonograph export (an alpha slider), gated behind an extra so the core stays pure Python.
 
 **Maintenance**
 
-- [ ] Publish to PyPI and wire up ReadTheDocs.
+- [x] Publish to PyPI and wire up ReadTheDocs.
 
 ## Made by
 

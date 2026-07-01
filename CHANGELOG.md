@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-07-01
+
+### Added
+
+- `allotaxonometer` — the full Dodds (2020) diamond allotaxonograph: a
+  rotated-square rank-rank histogram (log color scale) with iso-divergence
+  contours, log-rank edge axes, exclusive edge strips, and a wordshift + balance
+  panel. Complements the existing two-panel `allotaxonograph`, which is unchanged.
+- `RankedList.from_scores` — rank types by any numeric score (keyness score, log
+  ratio, …), so keyword rankings, "frequent words vs keywords", and other
+  non-frequency comparisons are first-class inputs to `rtd`/`allotaxonometer`.
+- Presidential-speech gallery: diamond figures and a frequency-vs-keyness diamond;
+  README research note on comparing many rankings.
+
 ## [0.1.2] - 2026-07-01
 
 ### Fixed

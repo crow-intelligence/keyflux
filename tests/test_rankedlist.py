@@ -66,6 +66,31 @@ class TestFromKeyness:
             RankedList.from_keyness(k, side="bogus")
 
 
+class TestFromScores:
+    """Ranking by an arbitrary numeric score."""
+
+    def test_ranks_by_descending_score(self) -> None:
+        r = RankedList.from_scores({"climate": 6.4, "carbon": 5.8, "the": 0.1})
+        assert r.ranks == {"climate": 1.0, "carbon": 2.0, "the": 3.0}
+
+    def test_tied_scores_average(self) -> None:
+        r = RankedList.from_scores({"a": 2.0, "b": 2.0, "c": 1.0})
+        assert r.ranks["a"] == 1.5
+        assert r.ranks["b"] == 1.5
+        assert r.ranks["c"] == 3.0
+
+    def test_empty_raises(self) -> None:
+        with pytest.raises(ValueError, match="empty"):
+            RankedList.from_scores({})
+
+    def test_matches_from_counts_ordering(self) -> None:
+        # from_scores on integer-like scores reproduces from_counts ranks.
+        counts = {"a": 30, "b": 10, "c": 4}
+        assert (
+            RankedList.from_scores(counts).ranks == RankedList.from_counts(counts).ranks
+        )
+
+
 class TestAligned:
     """Combined-domain alignment with tied-last ranks for exclusives."""
 
