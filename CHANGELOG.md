@@ -4,7 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.1] - 2026-07-01
+
+### Added
+
+- Presidential-speech allotaxonograph gallery: `examples/presidential_speeches.py`
+  (+ executed notebook and saved figures under `examples/gallery/`) comparing
+  U.S. presidential speech vocabulary across eras, with a matching docs page.
+- PNG logo (`imgs/logo.png`) so the README logo renders on PyPI.
+
+## [0.1.0] - 2026-06-30
 
 ### Added
 
