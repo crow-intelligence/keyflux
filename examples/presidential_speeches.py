@@ -188,14 +188,60 @@ show(diamond("2000-2024", "1950-1974", save_as="diamond_2000-2024_vs_1950-1974.p
 # keyness ranking; content words leap up. It's the same vocabulary, reordered.
 
 # %%
-freq_rank = RankedList.from_counts(counts["2000-2024"], label="by frequency")
+freq_rank = RankedList.from_counts(counts["2000-2024"], label="frequency")
 _k = Keyness(counts["2000-2024"], counts["1825-1849"],
              min_focus_freq=10, min_reference_freq=10)
 key_scores = {r.type: r.statistic for r in _k.table() if r.direction == "positive"}
-key_rank = RankedList.from_scores(key_scores, label="by keyness")
+key_rank = RankedList.from_scores(key_scores, label="keyness")
 fig_fk = allotaxonometer(freq_rank, key_rank, alpha=1 / 3)
 fig_fk.savefig(
     GALLERY / "diamond_frequency_vs_keyness.png", dpi=130, bbox_inches="tight"
 )
 print("saved gallery/diamond_frequency_vs_keyness.png")
 show(fig_fk)
+
+# %% [markdown]
+# ## Keyness vs. keyness — which words are distinctive of each era
+#
+# Keyness always needs a reference. To compare *eras* on equal footing we give
+# each era the **same** reference: the rest of the presidential corpus (all other
+# eras combined). For each era we rank its over-represented words by keyness
+# (log-likelihood, `RankedList.from_scores`) — its "distinctive vocabulary" — and
+# diamond two eras' keyness rankings against each other. Words distinctive of
+# *both* compared eras (versus the tradition) sit near the top centre; words
+# distinctive of only one era fan out to its side; the divergence measures how
+# differently the two eras stand out.
+
+
+# %%
+def era_keyness_ranking(period, *, min_freq=10):
+    """Rank a period's over-represented words by keyness vs the rest of the corpus."""
+    rest = Counter()
+    for other, c in counts.items():
+        if other != period:
+            rest.update(c)
+    k = Keyness(
+        counts[period], rest, min_focus_freq=min_freq, min_reference_freq=min_freq
+    )
+    scores = {r.type: r.statistic for r in k.table() if r.direction == "positive"}
+    return RankedList.from_scores(scores, label=period)
+
+
+def keyness_diamond(period_a, period_b, *, alpha=1 / 3, save_as=None):
+    """Diamond two eras' keyness rankings (each vs the rest of the corpus)."""
+    fig = allotaxonometer(
+        era_keyness_ranking(period_a), era_keyness_ranking(period_b), alpha=alpha
+    )
+    if save_as:
+        fig.savefig(GALLERY / save_as, dpi=130, bbox_inches="tight")
+        print(f"saved gallery/{save_as}")
+    return fig
+
+
+# %%
+show(keyness_diamond("1950-1974", "2000-2024",
+                     save_as="keyness_1950-1974_vs_2000-2024.png"))
+
+# %%
+show(keyness_diamond("1825-1849", "2000-2024",
+                     save_as="keyness_1825-1849_vs_2000-2024.png"))
