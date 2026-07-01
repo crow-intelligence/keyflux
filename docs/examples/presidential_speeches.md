@@ -73,11 +73,37 @@ and exclusive words fan out to the lower edges.
 `allotaxonometer` compares *any* two rankings, not just two corpora. Here the
 **2000–2024** corpus is ranked two ways — by raw **frequency** and by **keyness**
 (log-likelihood vs the 1825–1849 reference, via `RankedList.from_scores`) — and
-diamonded against itself. Function words (*the, be, and, of*) top the frequency
-ranking but fall out of the keyness ranking; deictic and content words (*we, you,
-america, thank*) rise. Same vocabulary, reordered.
+diamonded against itself. Read the two edges as the two rankings: the right edge
+is a word's **rank in frequency**, the left edge its **rank in keyness**. A word
+leaning right (blue) is frequent but *not* distinctive — the function words *the,
+be, and, of*; a word leaning left (red) is distinctive but not among the most
+frequent — *we, you, america, thank*. The bright edge is the ~5,900 words that
+are frequent but aren't positive keywords, so they have no keyness rank. Same
+vocabulary, reordered.
 
 ![frequency vs keyness](https://raw.githubusercontent.com/crow-intelligence/keyflux/main/examples/gallery/diamond_frequency_vs_keyness.png)
+
+## Keyness vs. keyness across eras
+
+Keyness always needs a reference, so to compare *eras* on equal footing we give
+each era the **same** reference — the rest of the presidential corpus (all other
+eras combined) — and rank its over-represented words by keyness
+(`RankedList.from_scores`). Each ranking is then an era's **distinctive
+vocabulary** versus the tradition. Diamonding two eras' keyness rankings shows
+which words are distinctive of *both* (near the top centre) and which are
+distinctive of only one (fanning to its side); the divergence measures how
+differently the two eras stand out.
+
+**Cold War (1950–1974) vs. modern (2000–2024).** Distinctive of 1950–1974:
+*vietnam, program, communist, soviet, peace, kennedy*. Distinctive of 2000–2024:
+*you, do, get, thank, job, america, iraq*. Their distinctive vocabularies barely
+overlap — divergence ≈ 0.70.
+
+![keyness 1950–1974 vs 2000–2024](https://raw.githubusercontent.com/crow-intelligence/keyflux/main/examples/gallery/keyness_1950-1974_vs_2000-2024.png)
+
+**Nineteenth century (1825–1849) vs. twenty-first (2000–2024).**
+
+![keyness 1825–1849 vs 2000–2024](https://raw.githubusercontent.com/crow-intelligence/keyflux/main/examples/gallery/keyness_1825-1849_vs_2000-2024.png)
 
 ## The script
 
